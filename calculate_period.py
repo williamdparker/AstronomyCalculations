@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def calculate_sidereal_period(inferior_period, superior_period):
     try:
         sidereal_period = 1./((1./inferior_period) - (1./superior_period))
