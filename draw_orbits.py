@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # Calculate the x-y pair for a point at a given angle on a circle of some radius
 def circle(parameter, radius=1.0):
     return radius*np.cos(parameter), radius*np.sin(parameter)
