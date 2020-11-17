@@ -1,6 +1,9 @@
-def calculate_sidereal_period(inferior_period, superior_period):
+def calculate_sidereal_period(synodic_period, is_inferior, reference_synodic_period=365.242):
     try:
-        sidereal_period = 1./((1./inferior_period) - (1./superior_period))
+        if is_inferior:
+            sidereal_period = 1./((1./synodic_period) + (1./reference_synodic_period))
+        else:
+            sidereal_period = 1./((1./reference_synodic_period) - (1./synodic_period))
     except ZeroDivisionError:
         print("Error: zero is an invalid period value")
         sidereal_period = 0.
