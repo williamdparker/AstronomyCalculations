@@ -3,6 +3,7 @@ from calculate_distance import calculate_superior_distance
 from calculate_period import calculate_sidereal_period
 from astropy.time import Time
 import numpy as np
+import pandas as pd
 
 if __name__ == '__main__':
 
@@ -21,19 +22,22 @@ if __name__ == '__main__':
     # jupiter_synodic_period = np.mean(np.diff(jupiter_opposition_times.jd))
     # jupiter_quarter_period = np.mean(jupiter_quadrature_times.jd-jupiter_opposition_times.jd)
 
-    synodic_periods = [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
+    synodic_periods = {'Planet' : ['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'],
+                       'Period' : [115.88 , 583.92 , 365.242 , 779.94 , 398.88 , 378.09 , 369.66 , 367.49]
+                      }
+
+    planets_data = pd.DataFrame(synodic_periods, columns = ['Planet' , 'Period'])
 
     # Calculate the sidereal period from synodic periods
-    earth_synodic_period = 365.242
 
     sidereal_periods = []
-    for synodic_period in synodic_periods:
-        if synodic_period < earth_synodic_period:
-            sidereal_periods.append(calculate_sidereal_period(synodic_period, is_inferior=True))
-        elif synodic_period == earth_synodic_period:
+    for 'Period' in planets_data:
+        if 'Planet' == 'Mercury' , 'Venus':
+            sidereal_periods.append(calculate_sidereal_period('Period', is_inferior=True))
+        elif 'Planet' == 'Earth':
             sidereal_periods.append(365.256)
         else:
-            sidereal_periods.append(calculate_sidereal_period(synodic_period, is_inferior=False))
+            sidereal_periods.append(calculate_sidereal_period('Period', is_inferior=False))
 
     print(sidereal_periods)
 
