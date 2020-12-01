@@ -22,31 +22,28 @@ if __name__ == '__main__':
     # jupiter_synodic_period = np.mean(np.diff(jupiter_opposition_times.jd))
     # jupiter_quarter_period = np.mean(jupiter_quadrature_times.jd-jupiter_opposition_times.jd)
 
-    synodic_periods = {'Planet' : ['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'],
-                       'Period' : [115.88 , 583.92 , 365.242 , 779.94 , 398.88 , 378.09 , 369.66 , 367.49]
-                      }
+    synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
+                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
+                       }
 
-    planets_data = pd.DataFrame(synodic_periods, columns = ['Planet' , 'Period'])
+    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period'])
 
     # Calculate the sidereal period from synodic periods
-
     sidereal_periods = []
-    for 'Period' in planets_data:
-        if 'Planet' == 'Mercury' , 'Venus':
-            sidereal_periods.append(calculate_sidereal_period('Period', is_inferior=True))
-        elif 'Planet' == 'Earth':
+    for index in planets_data.index:
+        period = planets_data['Period'][index]
+        planet = planets_data['Planet'][index]
+        if planet == 'Mercury' or planet == 'Venus':
+            sidereal_periods.append(calculate_sidereal_period(period, is_inferior=True))
+        elif planet == 'Earth':
             sidereal_periods.append(365.256)
         else:
-            sidereal_periods.append(calculate_sidereal_period('Period', is_inferior=False))
+            sidereal_periods.append(calculate_sidereal_period(period, is_inferior=False))
 
     print(sidereal_periods)
-
-
 
     # jupiter_sidereal_period = calculate_sidereal_period(earth_synodic_period, jupiter_synodic_period)
 
     # Calculate relative distance from Sun using quarter period
     # jupiter_relative_distance = calculate_superior_distance(jupiter_quarter_period, jupiter_sidereal_period)
     # print(jupiter_relative_distance)
-
-
