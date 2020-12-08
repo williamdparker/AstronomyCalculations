@@ -44,6 +44,16 @@ if __name__ == '__main__':
 
     # jupiter_sidereal_period = calculate_sidereal_period(earth_synodic_period, jupiter_synodic_period)
 
+    # Greatest elongation angle (in degrees)
+    #   References:
+    #       Northcott, R.J., "The Visibility of the Planet Mercury", J. Royal Astro. Soc. Canada 59, 28 (1965).
+    #       Colin, L., in Venus, "Basic Facts about Venus" (1983) p. 21.
+
+    greatest_elongations = {
+        'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
+        'Greatest Elongation': [19.000, 48.000, 0.000, 180.000, 180.000, 180.000, 180.000, 180.000]
+    }
+
     # Calculate relative distance from Sun using quarter period
     # jupiter_relative_distance = calculate_superior_distance(jupiter_quarter_period, jupiter_sidereal_period)
     # print(jupiter_relative_distance)
