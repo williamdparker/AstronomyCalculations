@@ -23,10 +23,12 @@ if __name__ == '__main__':
     # jupiter_quarter_period = np.mean(jupiter_quadrature_times.jd-jupiter_opposition_times.jd)
 
     synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
-                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
+                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49],
+                       'Opposition Time': [0, 0, 0, 797.5, 398.5, 377, 369.5, 367.5],
+                       'Quadrature Time': [0, 0, 0, 782, 398.5, 376.5, 369, 367.5]
                        }
 
-    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period'])
+    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period', 'Opposition Time', 'Quadrature Time'])
 
     # Calculate the sidereal period from synodic periods
     sidereal_periods = []
@@ -40,7 +42,7 @@ if __name__ == '__main__':
         else:
             sidereal_periods.append(calculate_sidereal_period(period, is_inferior=False))
 
-    print(sidereal_periods)
+    print(planets_data)
 
     # jupiter_sidereal_period = calculate_sidereal_period(earth_synodic_period, jupiter_synodic_period)
 
