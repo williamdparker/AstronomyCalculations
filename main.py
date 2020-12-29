@@ -14,21 +14,33 @@ if __name__ == '__main__':
     # opposition_times = ['2020-07-14T00:00', '2021-08-20T00:00', '2022-09-27T00:00']
     # eastern_quadrature_times = ['2020-10-12T00:00', '2021-11-16T00:00', '2022-12-22T00:00']
 
-    # Convert lists into astropy Time arrays
-    # jupiter_opposition_times = Time(opposition_times)
-    # jupiter_quadrature_times = Time(eastern_quadrature_times)
+    # Include five data points per planet (Mars, Jupiter, Saturn, Uranus, Neptune)
+    planet_times = {
+        'jupiter': {
+            'opposition': ['2018-05-09T00:00', '2020-07-14T00:00', '2021-08-20T00:00'],
+            'eastern_quadrature': ['2018-08-07T00:00', '2020-10-12T0:00', '2021-11-16T00:00']
+        },
+        'saturn': {
+            'opposition': ['2018-05-09T00:00', '2020-07-14T00:00', '2021-08-20T00:00'],
+            'eastern_quadrature': ['2018-08-07T00:00', '2020-10-12T0:00', '2021-11-16T00:00']
+        }
+    }
 
-    # Calculate periods from Time arrays
-    # jupiter_synodic_period = np.mean(np.diff(jupiter_opposition_times.jd))
-    # jupiter_quarter_period = np.mean(jupiter_quadrature_times.jd-jupiter_opposition_times.jd)
+    quarter_periods = [0., 0., 0.]  # initialize with zeros for Mercury through Earth
+    for planet in planet_times:
+        opposition_times = Time(planet_times[planet]['opposition'])
+        quadrature_times = Time(planet_times[planet]['eastern_quadrature'])
+        quarter_period = np.mean(quadrature_times.jd - opposition_times.jd)
+        quarter_periods.append(quarter_period)
 
     synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
-                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49],
-                       'Opposition Time': [0, 0, 0, 797.5, 398.5, 377, 369.5, 367.5],
-                       'Quadrature Time': [0, 0, 0, 782, 398.5, 376.5, 369, 367.5]
+                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
                        }
 
-    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period', 'Opposition Time', 'Quadrature Time'])
+    # Append "quarter periods" to synodic periods dictionary
+
+    # Turn synodic periods into Pandas DataFrame
+    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period'])
 
     # Calculate the sidereal period from synodic periods
     sidereal_periods = []
