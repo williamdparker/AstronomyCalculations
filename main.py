@@ -4,8 +4,11 @@ from calculate_period import calculate_sidereal_period
 from astropy.time import Time
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
+
+    earth_sidereal_period = 365.25636  # mean solar days (d)
 
     # Values for Jupiter from JPL HORIZONS
     #   2020-Jul-14 179.5137 elongation
@@ -34,27 +37,45 @@ if __name__ == '__main__':
         quarter_periods.append(quarter_period)
 
     synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
-                       'Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
+                       'Synodic Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
                        }
 
-    # Append "quarter periods" to synodic periods dictionary
-
     # Turn synodic periods into Pandas DataFrame
-    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Period'])
+
+    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Synodic Period'])
+
+    # Append "quarter periods" to planets_data data frame
+    # planets_data['Quarter Period'] = np.array(quarter_periods)
 
     # Calculate the sidereal period from synodic periods
     sidereal_periods = []
     for index in planets_data.index:
-        period = planets_data['Period'][index]
+        period = planets_data['Synodic Period'][index]
         planet = planets_data['Planet'][index]
         if planet == 'Mercury' or planet == 'Venus':
             sidereal_periods.append(calculate_sidereal_period(period, is_inferior=True))
         elif planet == 'Earth':
-            sidereal_periods.append(365.256)
+            sidereal_periods.append(earth_sidereal_period)
         else:
             sidereal_periods.append(calculate_sidereal_period(period, is_inferior=False))
 
-    print(planets_data)
+    planets_data['Sidereal Period'] = np.array(sidereal_periods)
+    solar_distances = [0.387, 0.723, 1.00, 1.52, 5.20, 9.58, 19.20, 30.05]
+    planets_data['Solar Distance'] = np.array(solar_distances)
+    plt.scatter(np.log(planets_data['Sidereal Period'] / earth_sidereal_period), np.log(planets_data['Solar Distance']))
+    plt.xlabel('ln(Sidereal period (y))')
+    plt.ylabel('ln(Solar distance (au))')
+    # plt.xscale('log')
+    # plt.yscale('log')
+    x_max = np.max(np.log(planets_data['Sidereal Period'] / earth_sidereal_period))
+    x_min = np.min(np.log(planets_data['Sidereal Period'] / earth_sidereal_period))
+    # x_values = np.logspace(-2.0, 1.5, num=int(1e4))
+    x_values = np.linspace(x_min, x_max)
+    power_ratio = 2./3.
+    intercept_coefficient = 0.
+    y_values = power_ratio * x_values + intercept_coefficient
+    plt.plot(x_values, y_values)
+    plt.show()
 
     # jupiter_sidereal_period = calculate_sidereal_period(earth_synodic_period, jupiter_synodic_period)
 
