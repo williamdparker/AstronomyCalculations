@@ -10,12 +10,7 @@ if __name__ == '__main__':
 
     earth_sidereal_period = 365.25636  # mean solar days (d)
 
-    # Values for Jupiter from JPL HORIZONS
-    #   2020-Jul-14 179.5137 elongation
-    #   2021-Aug-20 178.8157 elongation
-    #   2022-Sep-27 178.3660 elongation
-    # opposition_times = ['2020-07-14T00:00', '2021-08-20T00:00', '2022-09-27T00:00']
-    # eastern_quadrature_times = ['2020-10-12T00:00', '2021-11-16T00:00', '2022-12-22T00:00']
+    # Values from JPL HORIZONS
 
     # Include five data points per planet (Mars, Jupiter, Saturn, Uranus, Neptune)
     planet_times = {
