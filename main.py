@@ -45,11 +45,12 @@ if __name__ == '__main__':
 
     synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
                        'Synodic Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
+                       'Quarter Period': [quarter_periods]
                        }
 
     # Turn synodic periods into Pandas DataFrame
 
-    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Synodic Period'])
+    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Synodic Period', 'Quarter Period'])
 
     # Append "quarter periods" to planets_data data frame
     # planets_data['Quarter Period'] = np.array(quarter_periods)
