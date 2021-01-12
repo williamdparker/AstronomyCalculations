@@ -1,6 +1,7 @@
 # from draw_orbits import draw_orbits
 from calculate_distance import calculate_superior_distance, calculate_inferior_distance
 from calculate_period import calculate_sidereal_period
+from planet_data import names, synodic_periods
 from astropy.time import Time
 import numpy as np
 import pandas as pd
@@ -90,14 +91,12 @@ if __name__ == '__main__':
         quarter_period = np.mean(quadrature_times.jd - opposition_times.jd)
         quarter_periods.append(quarter_period)
 
-    ###### MOVE TO SEPARATE FILE "planet_data" and import ######
-    synodic_periods = {'Planet': ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'],
-                       'Synodic Period': [115.88, 583.92, 365.242, 779.94, 398.88, 378.09, 369.66, 367.49]
-                       }
-
     # data_to_dataframe()
-    # Turn synodic periods into Pandas DataFrame
-    planets_data = pd.DataFrame(synodic_periods, columns=['Planet', 'Synodic Period'])
+    # Create initial Pandas data frame from planet names
+    planets_data = pd.DataFrame(names, columns=['Planet'])
+
+    # Append synodic periods to planets_data data frame
+    planets_data['Synodic Period'] = synodic_periods
 
     # Append "quarter periods" to planets_data data frame
     planets_data['Quarter Period'] = quarter_periods
