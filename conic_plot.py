@@ -21,7 +21,7 @@ fit_points = np.array([[0, 8], [10, 0], [0, -8], [-10, 0], [-6, 5]])
 
 column1 = np.append([x], fit_points[:, 0])**2
 column2 = np.append([x*y], fit_points[:, 0]*fit_points[:, 1])
-column3 = np.append([y], fit_points[:, 1])
+column3 = np.append([y], fit_points[:, 1])**2
 column4 = np.append([x], fit_points[:, 0])
 column5 = np.append([y], fit_points[:, 1])
 column6 = np.ones([6])
