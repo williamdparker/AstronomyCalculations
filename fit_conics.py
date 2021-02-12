@@ -8,4 +8,6 @@ def conic_function(x, y, parameters):
     conic = parameters[0]*x**2 + 2*parameters[4]*x*y + parameters[1]*y**2 + 2*parameters[3]*x + 2*parameters[2]*y + 1
     return conic
 
+
+
 # def least_squares()

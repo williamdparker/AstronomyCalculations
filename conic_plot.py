@@ -19,14 +19,16 @@ import numpy as np
 x, y = 6, -5
 fit_points = np.array([[0, 8], [10, 0], [0, -8], [-10, 0], [-6, 5]])
 
-column1 = np.append([x], fit_points[:, 0]).reshape([6, 1])**2
-column2 = np.append([x*y], fit_points[:, 0]*fit_points[:, 1]).reshape([6, 1])
-column3 = np.append([y], fit_points[:, 1]).reshape([6, 1])**2
-column4 = np.append([x], fit_points[:, 0]).reshape([6, 1])
-column5 = np.append([y], fit_points[:, 1]).reshape([6, 1])
-column6 = np.ones([5, 1])
+column1 = np.append([x], fit_points[:, 0])**2
+column2 = np.append([x*y], fit_points[:, 0]*fit_points[:, 1])
+column3 = np.append([y], fit_points[:, 1])
+column4 = np.append([x], fit_points[:, 0])
+column5 = np.append([y], fit_points[:, 1])
+column6 = np.ones([6])
+matrix = np.array([column1, column2, column3, column4, column5, column6]).T
 
-print(column1, column2, column3, column4, column5, column6)
+print('det (\n{}\n) \n= {}'.format(matrix, np.linalg.det(matrix)))
+
 # column34 = np.array([[x, y],
 #                      fit_points])
 # column123 = np.array([[x**2, x*y, y**2],
