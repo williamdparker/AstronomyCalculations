@@ -4,11 +4,15 @@ import matplotlib.pyplot as plt
 
 # Calculate the x-y pair for a point at a given angle on a circle of some radius
 def circle(parameter, radius=1.0):
-    return radius*np.cos(parameter), radius*np.sin(parameter)
+    return radius * np.cos(parameter), radius * np.sin(parameter)
 
 
 def ellipse(parameter, semimajor_axis=2.0, semiminor_axis=1.0):
-    return semimajor_axis*np.cos(parameter), semiminor_axis*np.sin(parameter)
+    return semimajor_axis * np.cos(parameter), semiminor_axis * np.sin(parameter)
+
+
+def hyperbola(parameter, semimajor_axis=2.0, semiminor_axis=1.0):
+    return semimajor_axis / np.cos(parameter), semiminor_axis * np.tan(parameter)
 
 
 def draw_orbits():
