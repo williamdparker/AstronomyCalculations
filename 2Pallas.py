@@ -9,6 +9,7 @@ from astropy.time import Time
 #   x_,y_,z_ = geocentric equatorial coordinates
 #       x_ = Δ cos δ cos α, y_ = Δ cos δ sin α, z_ = Δ sin δ    where Δ = geocentric distance, δ = declination, α = RA
 
+# α = right ascension, δ = declination
 #   x_ = Δ cos δ cos α = l Δ = x0_ + ξ      where x0_ = geocentric equatorial x-coordinate of the Sun
 #   y_ = Δ cos δ sin α = m Δ = y0_ + η      where y0_ = geocentric equatorial y-coordinate of the Sun
 #   z_ = Δ sin δ       = n Δ = z0_ + ζ      where z0_ = geocentric equatorial z-coordinate of the Sun
