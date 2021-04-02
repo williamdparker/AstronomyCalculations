@@ -8,9 +8,9 @@ declination = '+04° 26m 56s'
 def right_ascension_hms_string_to_radians_float(ra):
     """Given input RA in format ##h ##m ##s return RA in decimal radians"""
     # Note: we should probably adapt to ##.##s form as well
-    hours = float(ra[:1])
-    minutes = float(ra[4:5])/60.                                   # 60 m in 1 h
-    seconds = float(ra[8:9])/3600.                                 # 3600 s in 1 h
+    hours = float(ra[:2])
+    minutes = float(ra[4:6])/60.                                   # 60 m in 1 h
+    seconds = float(ra[8:10])/3600.                                # 3600 s in 1 h
     right_ascension_float = (hours + minutes + seconds)*np.pi/12.  # 2π rad in 24 h
     return right_ascension_float
 
