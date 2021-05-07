@@ -1,4 +1,6 @@
 from astropy.time import Time
+from astropy.coordinates import SkyCoord, get_sun
+import numpy as np
 
 # Coordinate notation
 #   xyz = heliocentric plane of orbit
@@ -22,7 +24,15 @@ times = ('2002-06-10', '2002-07-15', '2002-07-25'),
 right_ascension = (5.5649, 5.5521, 5.5222)
 declination = (0.2833, 0.2803, 0.2690)
 
+
 # Write a function to convert declination and right ascension into (l, m , n) and check l^2 + m^2 + n^2 = 1
+def convert_equatorial_coordinates_to_cartesian_angles(declination, right_ascension):
+    l = np.cos(declination) * np.cos(right_ascension)
+    m = np.cos(declination) * np.sin(right_ascension)
+    n = np.sin(declination)
+    print(f"l^2 + m^2 + n^2 = {l**2 + m**2 + n**2}")
+    return l, m, n
+
 
 # Look at the Astropy coordinates SkyCoord class
 #   https://docs.astropy.org/en/stable/coordinates/
@@ -45,4 +55,16 @@ chi_values = (-3067283, -3861944, -5363308)
 eta_values = (0.8892900, 0.8626457, 0.7913872)
 zeta_values = (0.3855495, 0.3739996, 0.3431004)
 
+
+if __name__ == '__main__':
+    c = SkyCoord.from_name("Sirius")
+    dec = c.dec.radian
+    ra = c.ra.radian
+    l, m, n = convert_equatorial_coordinates_to_cartesian_angles(dec, ra)
+    print(l, m, n)
+    print()
+    northward_equinox_approximate = Time('2021-03-20T16:45:00', format='isot', scale='utc')
+
+    sun_at_equinox = get_sun(northward_equinox_approximate)
+    print(sun_at_equinox)
 
