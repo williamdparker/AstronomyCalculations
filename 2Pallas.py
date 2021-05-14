@@ -61,10 +61,18 @@ if __name__ == '__main__':
     dec = c.dec.radian
     ra = c.ra.radian
     l, m, n = convert_equatorial_coordinates_to_cartesian_angles(dec, ra)
+    # convert all example times and coordinates into (l, m, n)
     print(l, m, n)
     print()
     northward_equinox_approximate = Time('2021-03-20T16:45:00', format='isot', scale='utc')
 
     sun_at_equinox = get_sun(northward_equinox_approximate)
     print(sun_at_equinox)
+
+    # now convert sun (α, δ, Δ) to (x0_, y0_, z0_) for each time
+    # set a1 = 2/3 & b1 = 1/3  (why??)
+    # setup system of three linear equations for unknown distances (Δ1, Δ2, Δ3)
+    #  Equations 13.7.4 - 13.7.6 in Tatum
+
+    # find vector coefficients (a1, a3) relating r1 & r3 to r2
 
