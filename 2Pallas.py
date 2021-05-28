@@ -30,7 +30,7 @@ def convert_equatorial_coordinates_to_cartesian_angles(declination, right_ascens
     l = np.cos(declination) * np.cos(right_ascension)
     m = np.cos(declination) * np.sin(right_ascension)
     n = np.sin(declination)
-    print(f"l^2 + m^2 + n^2 = {l**2 + m**2 + n**2}")
+    print(f"l^2 + m^2 + n^2 = {l ** 2 + m ** 2 + n ** 2}")
     return l, m, n
 
 
@@ -45,6 +45,44 @@ def convert_equatorial_coordinates_to_cartesian_angles(declination, right_ascens
 # Write a function called crude_approximation_geocentric
 #   that takes (l1, m1, n1), (l3, m3, n3), (x0_1, y0_1, z0_1), (x0_2, y0_2, z0_2), and (x0_3, y0_3, z0_3)
 #   and returns (Δ1, Δ2, Δ3) using the equations 13.7.4-13.7.6 and a1 = b1 = 2/3, a3 = b3 = 1/3
+def crude_approximation_geocentric(observation_times, geocentric_angles):
+    """
+    Parameters
+    ----------
+    observation_times : tuple of 3 astropy Time objects
+        Represents 3 observation times.
+    geocentric_angles : ndarray(3, 3)
+        Geocentric angles, 1 per observation time (radians).
+
+    Returns
+    -------
+    geocentric_distances : tuple of floats
+        Objects distances from earth at 3 observation times.
+    """
+    earth_sun_separations = []
+    for time in observation_times:
+        earth_sun_separation = get_sun(time)
+        earth_sun_separation.representation_type = 'cartesian'
+        earth_sun_separations.append([earth_sun_separation.x.value, earth_sun_separation.y.value,
+                                      earth_sun_separation.z.value])
+    a1 = 2/3
+    a3 = 1/3
+    geocentric_distance_coefficients = np.zeros((3, 3))
+
+    geocentric_distance_coefficients[:, 0] = a1 * geocentric_angles[0]
+    geocentric_distance_coefficients[:, 1] = -1 * geocentric_angles[1]
+    geocentric_distance_coefficients[:, 2] = a3 * geocentric_angles[2]
+
+    earth_sun_separations = np.array(earth_sun_separations)
+    earth_sun_separation_coefficients = np.zeros((3, 3))
+    earth_sun_separation_coefficients = a1 * earth_sun_separations[0]
+    earth_sun_separation_coefficients += -1 * earth_sun_separations[1]
+    earth_sun_separation_coefficients += a3 * earth_sun_separations[2]
+
+    geocentric_distances = np.linalg.solve(geocentric_distance_coefficients, earth_sun_separation_coefficients)
+
+    return geocentric_distances
+
 
 # Write a function called geocentric_to_heliocentric to get (ξηζ) and r from (lmn), Δ, and (x0_, y0_, z0_)
 #   [you might be able to transform from GCRS to HCRS frame using Astropy but it would be good to practice]
@@ -54,7 +92,6 @@ def convert_equatorial_coordinates_to_cartesian_angles(declination, right_ascens
 chi_values = (-3067283, -3861944, -5363308)
 eta_values = (0.8892900, 0.8626457, 0.7913872)
 zeta_values = (0.3855495, 0.3739996, 0.3431004)
-
 
 if __name__ == '__main__':
     c = SkyCoord.from_name("Sirius")
@@ -67,7 +104,8 @@ if __name__ == '__main__':
     northward_equinox_approximate = Time('2021-03-20T16:45:00', format='isot', scale='utc')
 
     sun_at_equinox = get_sun(northward_equinox_approximate)
-    print(sun_at_equinox)
+    sun_at_equinox.representation_type = 'cartesian'
+    print(float(sun_at_equinox.x.value))
 
     # now convert sun (α, δ, Δ) to (x0_, y0_, z0_) for each time
     # set a1 = 2/3 & b1 = 1/3  (why??)
@@ -75,4 +113,3 @@ if __name__ == '__main__':
     #  Equations 13.7.4 - 13.7.6 in Tatum
 
     # find vector coefficients (a1, a3) relating r1 & r3 to r2
-
