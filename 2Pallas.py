@@ -74,7 +74,6 @@ def crude_approximation_geocentric(observation_times, geocentric_angles):
     geocentric_distance_coefficients[:, 2] = a3 * geocentric_angles[2]
 
     earth_sun_separations = np.array(earth_sun_separations)
-    earth_sun_separation_coefficients = np.zeros((3, 3))
     earth_sun_separation_coefficients = a1 * earth_sun_separations[0]
     earth_sun_separation_coefficients += -1 * earth_sun_separations[1]
     earth_sun_separation_coefficients += a3 * earth_sun_separations[2]
