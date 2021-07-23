@@ -113,10 +113,13 @@ if __name__ == '__main__':
     declinations = [0.2833, 0.2803, 0.2690]
 
     geocentric_cartesian_angles = []
-    for RA, dec in zip(right_ascensions, declinations):
-        geocentric_cartesian_angles.append(convert_equatorial_coordinates_to_cartesian_angles(dec, RA))
+    for right_ascension, declination in zip(right_ascensions, declinations):
+        geocentric_cartesian_angles.append(convert_equatorial_coordinates_to_cartesian_angles(declination,
+                                                                                              right_ascension))
 
-    print(geocentric_cartesian_angles)
+    geocentric_distances = crude_approximation_geocentric(time_objects, geocentric_cartesian_angles)
+    print(geocentric_distances)
+
 
 
     # now convert sun (α, δ, Δ) to (x0_, y0_, z0_) for each time
