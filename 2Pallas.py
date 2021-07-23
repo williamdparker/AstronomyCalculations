@@ -17,12 +17,8 @@ import numpy as np
 #   z_ = Δ sin δ       = n Δ = z0_ + ζ      where z0_ = geocentric equatorial z-coordinate of the Sun
 #   l^2 + m^2 + n^2 = 1
 
-# Values taken from Chapter 13.6 of Celestial Mechanics (Tatum)
-times = ('2002-06-10', '2002-07-15', '2002-07-25'),
 
-# Values in radians
-right_ascension = (5.5649, 5.5521, 5.5222)
-declination = (0.2833, 0.2803, 0.2690)
+
 
 
 # Write a function to convert declination and right ascension into (l, m , n) and check l^2 + m^2 + n^2 = 1
@@ -53,7 +49,7 @@ def crude_approximation_geocentric(observation_times, geocentric_angles):
         Represents 3 observation times.
     geocentric_angles : ndarray(3, 3)
         Geocentric angles, 1 per observation time (radians).
-
+        (l, m, n)
     Returns
     -------
     geocentric_distances : tuple of floats
@@ -105,6 +101,23 @@ if __name__ == '__main__':
     sun_at_equinox = get_sun(northward_equinox_approximate)
     sun_at_equinox.representation_type = 'cartesian'
     print(float(sun_at_equinox.x.value))
+
+    # Values taken from Chapter 13.6 of Celestial Mechanics (Tatum)
+    times = ['2002-06-10', '2002-07-15', '2002-07-25']
+    time_objects = []
+    for time in times:
+        time_objects.append(Time(time+'T00:00:00', format='isot', scale='utc'))
+
+    # Values of angular coordinates in radians
+    right_ascensions = [5.5649, 5.5521, 5.5222]
+    declinations = [0.2833, 0.2803, 0.2690]
+
+    geocentric_cartesian_angles = []
+    for RA, dec in zip(right_ascensions, declinations):
+        geocentric_cartesian_angles.append(convert_equatorial_coordinates_to_cartesian_angles(dec, RA))
+
+    print(geocentric_cartesian_angles)
+
 
     # now convert sun (α, δ, Δ) to (x0_, y0_, z0_) for each time
     # set a1 = 2/3 & b1 = 1/3  (why??)
