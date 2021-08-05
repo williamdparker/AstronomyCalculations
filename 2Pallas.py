@@ -120,6 +120,9 @@ if __name__ == '__main__':
     geocentric_distances = crude_approximation_geocentric(time_objects, geocentric_cartesian_angles)
     print(geocentric_distances)
 
+    A = np.array([[2, 1, 1], [1, 3, 2], [1, 0, 0]])
+    B = np.array([4, 5, 6])
+    print("Solutions:\n", np.linalg.solve(A, B))
 
 
     # now convert sun (α, δ, Δ) to (x0_, y0_, z0_) for each time
