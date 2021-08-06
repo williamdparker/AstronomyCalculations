@@ -26,7 +26,7 @@ def convert_equatorial_coordinates_to_cartesian_angles(declination, right_ascens
     l = np.cos(declination) * np.cos(right_ascension)
     m = np.cos(declination) * np.sin(right_ascension)
     n = np.sin(declination)
-    print(f"l^2 + m^2 + n^2 = {l ** 2 + m ** 2 + n ** 2}")
+    # print(f"l^2 + m^2 + n^2 = {l ** 2 + m ** 2 + n ** 2}")
     return l, m, n
 
 
@@ -61,19 +61,31 @@ def crude_approximation_geocentric(observation_times, geocentric_angles):
         earth_sun_separation.representation_type = 'cartesian'
         earth_sun_separations.append([earth_sun_separation.x.value, earth_sun_separation.y.value,
                                       earth_sun_separation.z.value])
+        # print('Appending {} a.u. magnitude separation to earth_sun_separations'.format(np.sqrt(
+        #     earth_sun_separation.x.value**2 + earth_sun_separation.y.value**2 + earth_sun_separation.z.value**2)))
+    print('XYZ = {}'.format(earth_sun_separations))
+
     a1 = 2/3
     a3 = 1/3
     geocentric_distance_coefficients = np.zeros((3, 3))
 
     geocentric_distance_coefficients[:, 0] = a1 * geocentric_angles[0]
+    print('GAF[0] ={}'.format(geocentric_angles[0]))
+    print()
     geocentric_distance_coefficients[:, 1] = -1 * geocentric_angles[1]
     geocentric_distance_coefficients[:, 2] = a3 * geocentric_angles[2]
 
+    print('GAF = {}'.format(geocentric_angles))
+    print()
+    print('LHS = {}'.format(geocentric_distance_coefficients))
+    print()
+
     earth_sun_separations = np.array(earth_sun_separations)
+    # print(earth_sun_separations)
     earth_sun_separation_coefficients = a1 * earth_sun_separations[0]
     earth_sun_separation_coefficients += -1 * earth_sun_separations[1]
     earth_sun_separation_coefficients += a3 * earth_sun_separations[2]
-
+    print('RHS = {}'.format(earth_sun_separation_coefficients))
     geocentric_distances = np.linalg.solve(geocentric_distance_coefficients, earth_sun_separation_coefficients)
 
     return geocentric_distances
@@ -103,7 +115,7 @@ if __name__ == '__main__':
     print(float(sun_at_equinox.x.value))
 
     # Values taken from Chapter 13.6 of Celestial Mechanics (Tatum)
-    times = ['2002-06-10', '2002-07-15', '2002-07-25']
+    times = ['2002-07-10', '2002-07-15', '2002-07-25']
     time_objects = []
     for time in times:
         time_objects.append(Time(time+'T00:00:00', format='isot', scale='utc'))
@@ -116,7 +128,7 @@ if __name__ == '__main__':
     for right_ascension, declination in zip(right_ascensions, declinations):
         geocentric_cartesian_angles.append(convert_equatorial_coordinates_to_cartesian_angles(declination,
                                                                                               right_ascension))
-
+    geocentric_cartesian_angles = np.array(geocentric_cartesian_angles)
     geocentric_distances = crude_approximation_geocentric(time_objects, geocentric_cartesian_angles)
     print(geocentric_distances)
 
