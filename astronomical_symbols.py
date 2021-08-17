@@ -20,4 +20,6 @@ astronomical_symbols = dict(Sun='☉',
                             Sagittarius='♐',
                             Capricornus='♑',
                             Aquarius='♒',
-                            Pisces='♓')
+                            Pisces='♓',
+                            Ceres='⚳',
+                            Pallas='⚴')
