@@ -2,19 +2,21 @@ from calculate_regular_star_polygram_vertices import calculate_vertex_coordinate
 from astronomical_symbols import astronomical_symbols
 import matplotlib.pyplot as plt
 
+# plt.figure(figsize=(16, 8))
+
 # Plot parameters
-radius = 1.
+radius = 1
 polygram_line_color = 'green'
 symbol_placement_factor = 1.1
-symbol_fontsize = 16
-day_placement_factor = 1.25
-day_fontsize = 14
+symbol_fontsize = 24
+day_placement_factor = 1.30
+day_fontsize = 16
 
 # Heptagram data
 polygram_objects = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']
 number_of_vertices = len(polygram_objects)
 vertex_offset = 3
-polygram_vertex_days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+polygram_vertex_days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 
 polygram_coordinates = calculate_vertex_coordinates(radius, number_of_vertices, vertex_offset)
@@ -28,14 +30,16 @@ polygram_symbol_coordinates = symbol_placement_factor * polygram_coordinates
 
 polygram_day_coordinates = day_placement_factor * polygram_coordinates
 
-symbol_index = 0
-for symbol in polygram_symbols:
+for symbol_index, symbol in enumerate(polygram_symbols):
     plt.text(polygram_symbol_coordinates[symbol_index][0], polygram_symbol_coordinates[symbol_index][1], symbol,
              ha='center', va='center', fontsize=symbol_fontsize)
+    if symbol_index == 3 or  symbol_index == 4:
+        polygram_day_coordinates[symbol_index][1] -= 0.07 * radius
+    if symbol_index == 2 or  symbol_index == 5:
+        polygram_day_coordinates[symbol_index][1] += 0.03 * radius
     plt.text(polygram_day_coordinates[symbol_index][0], polygram_day_coordinates[symbol_index][1],
              polygram_vertex_days[symbol_index], ha='center', va='center', fontsize=day_fontsize)
-    symbol_index += 1
 
 plt.axis('off')
-
+plt.xlim([-1.5*radius, 1.5*radius])
 plt.show()
